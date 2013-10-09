@@ -34,6 +34,8 @@ class SendmachineApiClient {
      * @param string $password
      */
     public function connect_api($username, $password) {
+        if(!$username or !$password) return false;
+        
         $this->username = $username;
         $this->password = $password;
     }
@@ -45,6 +47,17 @@ class SendmachineApiClient {
      * @return type
      */
     public function get_all_contact_lists($filter = 'all', $order_by = 'email') {
+        
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        if(!$filter or !$order_by) {
+            throw new Exception('invalid filter or order_by!');
+            return false;
+        }
         
         $process = curl_init($this->api_host."/contact/list?filter=$filter&orderby=$order_by");
         curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
@@ -62,7 +75,17 @@ class SendmachineApiClient {
      * @return boolean
      */
     public function get_a_single_contact_list($list_id, $filter = 'all', $order_by = 'email') {
-        if(!$list_id) return false;
+        
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        if(!$list_id) {
+            throw new Exception('invalid list id!');
+            return false;
+        }
         
         $process = curl_init($this->api_host."/contact/list/$list_id?filter=$filter&orderby=$order_by");
         curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
@@ -83,6 +106,18 @@ class SendmachineApiClient {
      * @return type
      */
     public function create_new_contact_list($list_name, $emails) {
+        
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        if(!$list_name or !$emails) {
+            throw new Exception('invalid list name or emails');
+            return false;
+        }
+        
         $data = array(
             'name' => $list_name,
             'contacts' => $emails
@@ -116,7 +151,17 @@ class SendmachineApiClient {
      * @return boolean
      */
     public function edit_contacts_list($list_id, $emails, $action = 'subscribe', $list_name = null) {
-        if(!$list_id or !$emails or !$action) return false;
+        
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        if(!$list_id or !$emails or !$action) {
+            throw new Exception('invalid list id or emails or action!');
+            return false;
+        }
         
         //check allowd action
         $action_allow = array('subscribe', 'resubscribe', 'unsubscribe');
@@ -153,7 +198,18 @@ class SendmachineApiClient {
      * @return boolean
      */
     public function delete_contact_list($list_id) {
-        if(!$list_id) return false;
+        
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        //check if list id is set
+        if(!$list_id) {
+            throw new Exception('invalid list id!');
+            return false;
+        }
         
         $process = curl_init($this->api_host."/contact/list/$list_id");
         curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
@@ -182,12 +238,26 @@ class SendmachineApiClient {
      * @return boolean
      */
     public function get_sender_list($status = 'active', $type = 'email', $group = null, $limit = null, $offset = null) {
+        
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
         $status_allowed = array('active', 'pending', 'active+pending', 'all');
         $type_allowed = array('email', 'domain', 'all');
         $group_allowed = array('none', 'domain', 'flat');
         
-        if(!in_array($status, $status_allowed) or !in_array($type, $type_allowed)) return false;
-        if(!is_null($group) and !in_array($group, $group_allowed)) return false;
+        if(!in_array($status, $status_allowed) or !in_array($type, $type_allowed)) {
+            throw new Exception('invalid status or type!');
+            return false;
+        }
+        
+        if(!is_null($group) and !in_array($group, $group_allowed)) {
+            throw new Exception('invalid group!');
+            return false;
+        }
         
         $q = $this->api_host."/sender/list?status=$status&type=$type";
         if(!is_null($group)) $q .= "&group=$group";
@@ -212,6 +282,13 @@ class SendmachineApiClient {
      * @return boolean
      */
     public function add_new_sender($email) {
+        
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
         if(!$email) return false;
         
         $data = array(
