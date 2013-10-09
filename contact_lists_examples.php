@@ -1,7 +1,7 @@
 <?php
 include_once 'SendmachineApiClient.php';
-$username = "username";
-$password = "password";
+$username = "your_username";
+$password = "your_password";
 
 $sc = new SendmachineApiClient();
 $sc->connect_api($username, $password);
