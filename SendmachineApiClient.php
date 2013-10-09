@@ -6,7 +6,7 @@
  * 
  * Sendmachine Api Client 
  *
- * @author cata
+ * @author rscata
  */
 class SendmachineApiClient {
     
@@ -170,6 +170,68 @@ class SendmachineApiClient {
         curl_close($process);
         return json_decode($return);
         
+    }
+    
+    /**
+     * get sender list
+     * @param string $status (active, pending, active+pending, all)
+     * @param string $type (email, domain, all)
+     * @param string $group (none, domain, flat)
+     * @param int $limit
+     * @param int $offset
+     * @return boolean
+     */
+    public function get_sender_list($status = 'active', $type = 'email', $group = null, $limit = null, $offset = null) {
+        $status_allowed = array('active', 'pending', 'active+pending', 'all');
+        $type_allowed = array('email', 'domain', 'all');
+        $group_allowed = array('none', 'domain', 'flat');
+        
+        if(!in_array($status, $status_allowed) or !in_array($type, $type_allowed)) return false;
+        if(!is_null($group) and !in_array($group, $group_allowed)) return false;
+        
+        $q = $this->api_host."/sender/list?status=$status&type=$type";
+        if(!is_null($group)) $q .= "&group=$group";
+        if(!is_null($limit)) $q .= "&limit=$limit";
+        if(!is_null($offset)) $q .= "&offset=$offset";
+        
+        $process = curl_init($q);
+        curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
+        $return = curl_exec($process);
+        
+        $resp_check = $this->process_response($process);
+        if($resp_check !== true) return $resp_check;
+        
+        curl_close($process);
+        return json_decode($return);
+    }
+    
+    /**
+     * add a new sender
+     * @param string $email
+     * @return boolean
+     */
+    public function add_new_sender($email) {
+        if(!$email) return false;
+        
+        $data = array(
+            'type' => 'email',
+            'address' => $email
+            );
+        
+        $data_string = json_encode($data);
+        $process = curl_init($this->api_host."/sender/list");
+        curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+        curl_setopt($process, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($process, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($process, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data_string))
+        );
+        $return = curl_exec($process);
+        curl_close($process);
+        return json_decode($return);
     }
     
     
