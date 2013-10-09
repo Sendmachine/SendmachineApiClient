@@ -289,7 +289,10 @@ class SendmachineApiClient {
             return false;
         }
         
-        if(!$email) return false;
+        if(!$email) {
+            throw new Exception('invalid email');
+            return false;
+        }
         
         $data = array(
             'type' => 'email',
@@ -311,6 +314,191 @@ class SendmachineApiClient {
         return json_decode($return);
     }
     
+    /**
+     * Get details about the current active package of the user
+     */
+    public function get_account_package_details() {
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        $process = curl_init($this->api_host."/account/package");
+        curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
+        $return = curl_exec($process);
+        
+        $resp_check = $this->process_response($process);
+        if($resp_check !== true) return $resp_check;
+        
+        curl_close($process);
+        return json_decode($return);
+    }
+    
+    /**
+     * The SMTP user and password are also used for API Auth. 
+     */
+    public function get_smtp_details() {
+         //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        $process = curl_init($this->api_host."/account/smtp");
+        curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
+        $return = curl_exec($process);
+        
+        $resp_check = $this->process_response($process);
+        if($resp_check !== true) return $resp_check;
+        
+        curl_close($process);
+        return json_decode($return);
+    }
+    
+    /**
+     * A new SMTP password will be generated.
+     * @return boolean
+     * @throws Exception
+     */
+    public function reset_smtp_password() {
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        
+        $process = curl_init($this->api_host."/account/smtp");
+        curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+        curl_setopt($process, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($process, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data_string))
+        );
+        $return = curl_exec($process);
+        curl_close($process);
+        return json_decode($return);
+    }
+
+    /**
+     * get user details
+     * @return boolean
+     * @throws Exception
+     */
+    public function get_user_details() {
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        $process = curl_init($this->api_host."/account/user");
+        curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
+        $return = curl_exec($process);
+        
+        $resp_check = $this->process_response($process);
+        if($resp_check !== true) return $resp_check;
+        
+        curl_close($process);
+        return json_decode($return);
+    }
+    
+    /**
+     * update user details
+     * @param array $data (sex, first_name, last_name, country, phone_number, mobile_number)
+     * @return boolean
+     * @throws Exception
+     */
+    public function update_user_details($data) {
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        $sex_allowed('f', 'm');
+        if(!$data['sex'] or !in_array($data['sex'], $sex_allowed)) {
+            throw new Exception('invalid sex');
+            return false;
+        }
+        
+        if(!$data['first_name']) {
+            throw new Exception('invalid first_name');
+            return false;
+        }
+        
+        if(!$data['last_name']) {
+            throw new Exception('invalid last_name');
+            return false;
+        }
+        
+        if(!$data['country']) {
+            throw new Exception('invalid country');
+            return false;
+        }
+        
+        if(!$data['phone_number']) {
+            throw new Exception('invalid phone_number');
+            return false;
+        }
+        
+        if(!$data['mobile_number']) {
+            throw new Exception('invalid mobile_number');
+            return false;
+        }
+        
+        $data = array(
+            'sex' => $data['sex'],
+            'first_name' => $data['first_name'],
+            'last_name' => $data['last_name'],
+            'country' => $data['country'],
+            'phone_number' => $data['phone_number'],
+            'mobile_number' => $data['mobile_number']
+            );
+        
+        $data_string = json_encode($data);
+        $process = curl_init($this->api_host."/account/user");
+        curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+        curl_setopt($process, CURLOPT_CUSTOMREQUEST, "POST");
+        curl_setopt($process, CURLOPT_POSTFIELDS, $data_string);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($process, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json',
+            'Content-Length: ' . strlen($data_string))
+        );
+        $return = curl_exec($process);
+        curl_close($process);
+        return json_decode($return);
+    }
+    
+    /**
+     * Get countries with their corresponding IDs.
+     * @return boolean
+     * @throws Exception
+     */
+    public function get_countries() {
+        //check if username and password is set
+        if(!$this->username and !$this->password) {
+            throw new Exception('username or password is not set');
+            return false;
+        }
+        
+        $process = curl_init($this->api_host."/account/countries");
+        curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, TRUE);
+        $return = curl_exec($process);
+        
+        $resp_check = $this->process_response($process);
+        if($resp_check !== true) return $resp_check;
+        
+        curl_close($process);
+        return json_decode($return);
+    }
     
     /**
      * procces resoponse info
