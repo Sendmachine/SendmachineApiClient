@@ -18,4 +18,7 @@ $resp = $sc->create_new_contact_list("list name", array('email@example.com', 'em
 
 //add contacts list to a existing list
 $resp = $sc->edit_contacts_list($list_id, array('email2@example.com', 'email3@example.com'), 'subscribe');
+
+//delete contact list
+$resp = $sc->delete_contact_list($list_id);
 ?>

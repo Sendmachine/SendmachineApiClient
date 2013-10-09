@@ -146,6 +146,33 @@ class SendmachineApiClient {
         return json_decode($return);
     }
     
+    
+    /**
+     * Delete a contact list
+     * @param int $list_id
+     * @return boolean
+     */
+    public function delete_contact_list($list_id) {
+        if(!$list_id) return false;
+        
+        $process = curl_init($this->api_host."/contact/list/$list_id");
+        curl_setopt($process, CURLOPT_USERPWD, $this->username . ":" . $this->password);
+        curl_setopt($process, CURLOPT_CUSTOMREQUEST, "DELETE");
+        curl_setopt($process, CURLOPT_RETURNTRANSFER, true);
+        curl_setopt($process, CURLOPT_HTTPHEADER, array(
+            'Content-Type: application/json')
+        );
+        $return = curl_exec($process);
+        
+        $resp_check = $this->process_response($process);
+        if($resp_check !== true) return $resp_check;
+        
+        curl_close($process);
+        return json_decode($return);
+        
+    }
+    
+    
     /**
      * procces resoponse info
      * @param object $respone
