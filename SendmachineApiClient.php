@@ -5,6 +5,27 @@
  * Description of SendmachineApiClient
  * 
  * Sendmachine Api Client 
+ * 
+ * Features implemented
+ * ====================
+ * 
+ *  Get all contact lists
+ *  Get a single contact list
+ *  Create a new contact list 
+ *  Add contacts list to a existing list
+ *  Delete a contact list
+ * 
+ *  Get sender list
+ *  Add a new sender
+ * 
+ *  Get details about the current active package of the user
+ *  Get SMTP details
+ *  Reset SMTP password
+ * 
+ *  Get user details
+ *  Update user details
+ * 
+ *  Get countries with their corresponding IDs.
  *
  * @author rscata
  */
