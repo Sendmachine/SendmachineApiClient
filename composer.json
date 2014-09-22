@@ -1,5 +1,5 @@
 {
-    "name": "sendmachine/SendmachineApiClient",
+    "name": "sendmachine/sendmachine-api-client",
     "description": "Sendmachine API Client",
     "keywords": ["sendmachine","api","email"],
     "homepage": "https://github.com/Sendmachine/SendmachineApiClient",
