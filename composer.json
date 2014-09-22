@@ -1,0 +1,8 @@
+{
+    "name": "rscata/SendmachineApiClient",
+    "description": "Sendmachine API Client",
+    "require": {
+        "php": ">=5.3.0",
+        "ext-curl": "*"
+    }
+}
