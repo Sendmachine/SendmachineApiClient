@@ -3,13 +3,6 @@
     "description": "Sendmachine API Client",
     "keywords": ["sendmachine","api","email"],
     "homepage": "https://github.com/Sendmachine/SendmachineApiClient",
-    "authors": [
-        {
-            "name": "Cata",
-            "email": "catalin.rscata@gmail.com",
-            "role": "Developer"
-        }
-    ],
     "require": {
         "php": ">=5.3.0",
         "ext-curl": "*"
