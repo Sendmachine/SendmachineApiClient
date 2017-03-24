@@ -31,7 +31,7 @@ try {
 	print_r($rating);
 	
 } 
-catch (Sendmachine_Account_Exception $ex) {
+catch (Sendmachine_Error $ex) {
 
 	echo $ex->getMessage(); //error details
 	echo $ex->getSendmachineStatus(); //error status

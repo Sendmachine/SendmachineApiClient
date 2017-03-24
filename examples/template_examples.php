@@ -40,7 +40,7 @@ try {
 	$sc->templates->delete($template_id);
 	
 } 
-catch (Sendmachine_Templates_Exception $ex) {
+catch (Sendmachine_Error $ex) {
 
 	echo $ex->getMessage(); //error details
 	echo $ex->getSendmachineStatus(); //error status

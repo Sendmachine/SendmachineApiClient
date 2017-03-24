@@ -5,6 +5,7 @@ require_once __dir__ . '/library/Sender.php';
 require_once __dir__ . '/library/Campaigns.php';
 require_once __dir__ . '/library/Lists.php';
 require_once __dir__ . '/library/Templates.php';
+require_once __dir__ . '/library/Mail.php';
 
 class SendmachineApiClient {
 
@@ -12,7 +13,7 @@ class SendmachineApiClient {
 	 * api host
 	 * @var string
 	 */
-	private $api_host = 'https://api.sendmachine.com';
+	private $api_host = 'http://api.sendmachine.com';
 
 	/**
 	 * api username
@@ -64,6 +65,7 @@ class SendmachineApiClient {
 		$this->lists = new Lists($this);
 		$this->account = new Account($this);
 		$this->templates = new Templates($this);
+        $this->mail = new Mail($this);
 	}
 
 	public function request($url, $method, $params = array()) {

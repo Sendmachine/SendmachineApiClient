@@ -88,7 +88,7 @@ try {
 	$sc->campaigns->unschedule($campaign_id1);
 	
 } 
-catch (Sendmachine_Campaigns_Exception $ex) {
+catch (Sendmachine_Error $ex) {
 
 	echo $ex->getMessage(); //error details
 	echo $ex->getSendmachineStatus(); //error status
