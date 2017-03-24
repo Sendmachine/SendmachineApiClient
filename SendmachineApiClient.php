@@ -13,7 +13,7 @@ class SendmachineApiClient {
 	 * api host
 	 * @var string
 	 */
-	private $api_host = 'http://api.sendmachine.com';
+	private $api_host = 'https://api.sendmachine.com';
 
 	/**
 	 * api username
