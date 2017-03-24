@@ -65,7 +65,7 @@ class SendmachineApiClient {
 		$this->lists = new Lists($this);
 		$this->account = new Account($this);
 		$this->templates = new Templates($this);
-        $this->mail = new Mail($this);
+		$this->mail = new Mail($this);
 	}
 
 	public function request($url, $method, $params = array()) {
