@@ -11,23 +11,23 @@ try {
 	/*
 	 * create a new contact list
 	 */
-	$sc->lists->create([
+	$sc->lists->create(array(
 		"website" => "siteexample.com",
 		"default_from_name" => "Default Name",
 		"default_from_email" => "email@example.com",
-		"address" => [
+		"address" => array(
 			"zip_code" => 2353,
 			"country" => "US",
 			"city" => "sample city",
 			"address" => "sample address"
-		],
+		),
 		"phone" => 56756, //optional
 		"name" => "sample name",
 		"subscription_reminder" => "sample reminder",
 		"company" => "sample company name",
 		"send_goodbye" => 0,
 		"default_subject" => "default subject"//optional
-	]);
+	));
 
 	/*
 	 * get all contact lists
@@ -46,13 +46,13 @@ try {
 	/*
 	 * update list details
 	 */
-	$sc->lists->edit($list_id, ['name' => 'new_list_name']);
+	$sc->lists->edit($list_id, array('name' => 'new_list_name'));
 	$list_details = $sc->lists->details($list_id);
 	print_r($list_details);
 	/*
 	 * add contacts list to a existing list
 	 */
-	$sc->lists->manage_contacts($list_id, ['email2@example.com', 'email3@example.com'], 'subscribe');
+	$sc->lists->manage_contacts($list_id, array('email2@example.com', 'email3@example.com'), 'subscribe');
 	
 	$updated_details = $sc->lists->recipients($list_id);
 	print_r($updated_details);
@@ -60,7 +60,7 @@ try {
 	$contact_details = $sc->lists->contact_details($list_id, 'email2@example.com');
 	print_r($contact_details);
 	
-	$sc->lists->manage_contact($list_id, 'email2@example.com', ['status' => 'unsubscribe']);
+	$sc->lists->manage_contact($list_id, 'email2@example.com', array('status' => 'unsubscribe'));
 	
 	/*
 	 * get segments

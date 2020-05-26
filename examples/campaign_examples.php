@@ -11,12 +11,12 @@ try {
 	/*
 	 * create new campaign
 	 */
-	$campaign1 = $sc->campaigns->create([
+	$campaign1 = $sc->campaigns->create(array(
 		'name' => 'Campaign Name',
 		'subject' => 'Campaign Subject',
 		'contactlist_id' => 1,
 		'sender_email' => 'sender_email@example.com'
-	]);
+	));
 
 	$campaign_id1 = $campaign1['id'];
 
@@ -35,9 +35,9 @@ try {
 	/*
 	 * update created campaign, add body html
 	 */
-	$sc->campaigns->update($campaign_id1, [
+	$sc->campaigns->update($campaign_id1, array(
 		'body_html' => '<div style="color:red">I am some random body html</div><a href="[[UNSUB_LINK]]" >unsubscribe here</a>'
-	]);
+	));
 
 	/*
 	 * get campaign content

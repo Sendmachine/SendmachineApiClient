@@ -1,5 +1,26 @@
 <?php
 
+defined('CURL_SSLVERSION_DEFAULT') || define('CURL_SSLVERSION_DEFAULT', 0);
+
+class Sendmachine_Error extends Exception {
+
+	private $err_status;
+
+	public function __construct($error_reason = "", $error_status = "") {
+
+		parent::__construct($error_reason);
+
+		$this->err_status = $error_status;
+	}
+
+	public function getSendmachineStatus() {
+		return $this->err_status;
+	}
+
+}
+
+class Http_Error extends Sendmachine_Error {}
+
 require_once __dir__ . '/library/Account.php';
 require_once __dir__ . '/library/Sender.php';
 require_once __dir__ . '/library/Campaigns.php';
@@ -85,11 +106,11 @@ class SendmachineApiClient {
 
 				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "POST");
 				curl_setopt($ch, CURLOPT_POSTFIELDS, $params);
-				curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json', 'Content-Length: ' . strlen($params)]);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json', 'Content-Length: ' . strlen($params)));
 				break;
 			case 'DELETE':
 				curl_setopt($ch, CURLOPT_CUSTOMREQUEST, "DELETE");
-				curl_setopt($ch, CURLOPT_HTTPHEADER, ['Content-Type: application/json']);
+				curl_setopt($ch, CURLOPT_HTTPHEADER, array('Content-Type: application/json'));
 				break;
 		}
 		
@@ -146,7 +167,7 @@ class SendmachineApiClient {
 
 	public function check_config() {
 
-		$config_paths = [".sendmachine.conf", "/etc/.sendmachine.conf"];
+		$config_paths = array(".sendmachine.conf", "/etc/.sendmachine.conf");
 		$username = null;
 		$password = null;
 
@@ -167,7 +188,7 @@ class SendmachineApiClient {
 			}
 		}
 
-		return [$username, $password];
+		return array($username, $password);
 	}
 
 	public function set_error($result) {
@@ -187,22 +208,3 @@ class SendmachineApiClient {
 	}
 
 }
-
-class Sendmachine_Error extends Exception {
-
-	private $err_status;
-
-	public function __construct($error_reason = "", $error_status = "") {
-
-		parent::__construct($error_reason);
-
-		$this->err_status = $error_status;
-	}
-
-	public function getSendmachineStatus() {
-		return $this->err_status;
-	}
-
-}
-
-class Http_Error extends Sendmachine_Error {}
