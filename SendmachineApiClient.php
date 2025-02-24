@@ -27,6 +27,7 @@ require_once __dir__ . '/library/Campaigns.php';
 require_once __dir__ . '/library/Lists.php';
 require_once __dir__ . '/library/Templates.php';
 require_once __dir__ . '/library/Mail.php';
+require_once __dir__ . '/library/Recipients.php';
 
 class SendmachineApiClient {
 
@@ -59,6 +60,14 @@ class SendmachineApiClient {
 	 */
 	private $debug = false;
 
+	public $campaigns;
+	public $sender;
+	public $lists;
+	public $account;
+	public $templates;
+	public $mail;
+	public $recipients;
+
 	/**
 	 * connect to api
 	 * @param string $username
@@ -87,6 +96,7 @@ class SendmachineApiClient {
 		$this->account = new Account($this);
 		$this->templates = new Templates($this);
 		$this->mail = new Mail($this);
+		$this->recipients = new Recipients($this);
 	}
 
 	public function request($url, $method, $params = array()) {
