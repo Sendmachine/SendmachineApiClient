@@ -27,6 +27,7 @@ require_once __dir__ . '/library/Campaigns.php';
 require_once __dir__ . '/library/Lists.php';
 require_once __dir__ . '/library/Templates.php';
 require_once __dir__ . '/library/Mail.php';
+require_once __dir__ . '/library/Sms.php';
 require_once __dir__ . '/library/Recipients.php';
 
 class SendmachineApiClient {
@@ -66,6 +67,7 @@ class SendmachineApiClient {
 	public $account;
 	public $templates;
 	public $mail;
+	public $sms;
 	public $recipients;
 
 	/**
@@ -96,6 +98,7 @@ class SendmachineApiClient {
 		$this->account = new Account($this);
 		$this->templates = new Templates($this);
 		$this->mail = new Mail($this);
+		$this->sms = new Sms($this);
 		$this->recipients = new Recipients($this);
 	}
 

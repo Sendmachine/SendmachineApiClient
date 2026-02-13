@@ -1,7 +1,7 @@
 {
     "name": "sendmachine/sendmachine-api-client",
     "description": "Sendmachine API Client",
-    "keywords": ["sendmachine","api","email"],
+    "keywords": ["sendmachine","api","email","sms"],
     "homepage": "https://github.com/Sendmachine/SendmachineApiClient",
     "license": "MIT",
     "require": {
